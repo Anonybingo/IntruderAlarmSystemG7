@@ -1,0 +1,4 @@
+Trigger an alarm when unauthorized entry is detected.
+*Detect intruders using a PIR sensor.
+*Trigger buzzer and LED as alarm.
+*Show “Intruder Alert!” on LCD.
