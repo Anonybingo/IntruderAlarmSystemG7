@@ -1,0 +1,2 @@
+*LCD did not work until the correct I2C address was set.
+*PIR sensor, is it Digital or Analog
