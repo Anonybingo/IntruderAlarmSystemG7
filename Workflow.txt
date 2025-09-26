@@ -1,0 +1,51 @@
+# Workflow — Step-by-step explanation
+
+## 1. Startup / Initialization
+
+1. Power the Arduino (USB or 5V).
+2. Arduino runs `setup()`:
+
+   * Initialize the I2C LCD and turn on backlight.
+   * Show a short message like **"System Ready"**.
+   * Configure pins: PIR input (pin 2), buzzer output (pin 7), LED output (pin 8).
+3. Wait a short time for the PIR to **warm up** (30–60 seconds recommended) so it stabilizes and avoids false triggers.
+
+## 2. Monitoring loop (main operation)
+
+1. Enter the `loop()` and repeatedly read the PIR output pin (`digitalRead(pirPin)`).
+2. If PIR output is **LOW** (no motion):
+
+   * Turn **OFF** buzzer and LED.
+   * Update LCD to show **"Monitoring..."** (or a similar idle message).
+   * Continue checking the PIR in short intervals (e.g., every 300–500 ms).
+3. If PIR output is **HIGH** (motion detected):
+
+   * Turn **ON** buzzer and LED immediately.
+   * Update LCD to show **"Intruder Alert!"** and optionally a second line like **"Motion Detected"**.
+   * Keep alarm active while PIR stays HIGH (or for a fixed alarm duration if you prefer).
+   * Continue reading PIR to know when motion stops.
+
+## 3. Reset / Return to monitoring
+
+1. When PIR returns to **LOW** (no more motion):
+
+   * Turn **OFF** buzzer and LED.
+   * Update LCD back to **"Monitoring..."**.
+   * Resume regular polling for motion.
+
+## 4. Optional behaviors (simple additions)
+
+* **Latching alarm**: After first detection, keep alarm on until a reset button is pressed.
+* **Timed alarm**: Sound buzzer for a fixed time (e.g., 10 seconds) even if PIR still HIGH.
+* **Debounce / confirm**: Require PIR to be HIGH for two consecutive reads (e.g., 2 × 300 ms) to reduce false positives.
+
+## 5. Practical tips to reduce problems
+
+* Let PIR warm up 30–60 s after power-up.
+* Place PIR away from direct heat, vents, or rapidly moving curtains to avoid false triggers.
+* Use a short polling delay (300–500 ms) — too fast wastes CPU, too slow delays detection.
+* If buzzer + LCD cause flicker, use a separate 5V supply or a decoupling capacitor.
+
+---
+
+If you want, I can convert this workflow into a one-page diagram or a short pseudocode block you can paste into the report.
